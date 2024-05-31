@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb://127.0.0.1:27017/PapersDB';
+const mongoURI = 'mongodb+srv://balikeshwart:LnxtH16bo8kdJBqx@cluster0.3qiqqay.mongodb.net/PapersDB?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
