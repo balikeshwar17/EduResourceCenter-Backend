@@ -67,7 +67,7 @@ const adminAuthenticate = async (req, res, next) => {
         // console.log('incoming accesstoken');
       jwt.verify(incomingAccessToken, ACCESS_TOKEN_SECRETKEY, async (err, decoded) => {
         if (err) {
-            console.log(err);
+            // console.log(err);
           return sendResponse(res, 403, 'Failed', 'Error in access token matching', null);
         }
 

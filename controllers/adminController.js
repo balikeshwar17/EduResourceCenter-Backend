@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Admin = require('../models/adminModel');
 const sendResponse = require('../utils/response');
@@ -45,7 +45,7 @@ exports.register = async (req, res) => {
         return sendResponse(res, 201, "Success", "Admin registered successfully!", adminDataToSend);
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return sendResponse(res, 500, 'Failed', 'Internal server error', error.message);
     }
 };
@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
         const existUser = await Admin.findOne({ email: email });
 
         if (!existUser) {
-          console.log('hi');
+          // console.log('hi');
           return sendResponse(res, 404, "Failed", "User does not exist!", null);
         }
 

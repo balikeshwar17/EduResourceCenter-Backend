@@ -31,7 +31,7 @@ const userAuthenticate = async (req, res, next) => {
       try {
         jwt.verify(incomingRefreshToken, REFRESH_TOKEN_SECRETKEY, async (err, decoded) => {
           if (err) {
-            console.log('err1',err);
+            // console.log('err1',err);
             return sendResponse(res, 401, 'Unsuccessful', 'Error in verification of refresh token', err);
           }
 
@@ -66,7 +66,7 @@ const userAuthenticate = async (req, res, next) => {
     } else {
       jwt.verify(incomingAccessToken, ACCESS_TOKEN_SECRETKEY, async (err, decoded) => {
         if (err) {
-          console.log(err);
+          // console.log(err);
           return sendResponse(res, 403, 'Failed', 'Error in access token matching', err);
         }
         

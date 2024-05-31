@@ -24,7 +24,7 @@ exports.uploadPaper = async (req, res) => {
       
         // Delete the uploaded file from local storage after upload to Cloudinary
         await fs.unlink(file.path);
-        console.log('insidefunc');
+        // console.log('insidefunc');
         // Save metadata to the database
         const paper = new Paper({
             paper_name,
@@ -49,7 +49,7 @@ exports.uploadPaper = async (req, res) => {
 
         return sendResponse(res, 201, 'Paper uploaded successfully',true, savedPaper);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         return sendResponse(res, 500, 'Failed', 'Internal server error', error.message);
     }
 };
@@ -122,7 +122,7 @@ exports.getPapers = async (req, res) => {
         return sendResponse(res, 200, 'Papers found', true, { papers, totalPages, currentPage: page });
 
     } catch (error) {
-        console.error('Error fetching papers:', error);
+        // console.error('Error fetching papers:', error);
         return sendResponse(res, 500, 'Internal server error', false, null);
     }
 };
@@ -169,7 +169,7 @@ exports.getColleges = async (req, res) => {
         // Send response back to client using sendResponse utility function
         sendResponse(res, 200, 'Found', true, colleges);
     } catch (error) {
-        console.error('Error fetching colleges:', error);
+        // console.error('Error fetching colleges:', error);
         return sendResponse(res, 500, 'Internal server error', false, null);
     }
 };
@@ -232,7 +232,7 @@ exports.getCourses=async(req,res)=>{
         // Send response back to client using sendResponse utility function
         sendResponse(res, 200, 'Found', true, courses);
     } catch (error) {
-        console.error('Error fetching courses:', error);
+        // console.error('Error fetching courses:', error);
         sendResponse(res, 500, 'Internal server error', false, null);
     }
 }
@@ -538,7 +538,7 @@ exports.removePaperFromMyPendingVerification=async(req,res)=>{
 
 exports.addToValidPaper=async(req,res)=>{
     try {
-        console.log('hi');
+        // console.log('hi');
         const { id } = req.params;
 
         
@@ -553,7 +553,7 @@ exports.addToValidPaper=async(req,res)=>{
             { new: true }
         );
 
-        console.log(paper);
+        // console.log(paper);
 
         // Check if paper is found
         if (!paper) {
