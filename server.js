@@ -16,13 +16,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://magnificent-crisp-66bc77.netlify.app",
+    origin: "https://eduresourcecenter.netlify.app",
     credentials: true, 
   })
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://magnificent-crisp-66bc77.netlify.app");
+  res.setHeader("Access-Control-Allow-Origin", "https://eduresourcecenter.netlify.app");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
