@@ -51,8 +51,16 @@ const userAuthenticate = async (req, res, next) => {
           res.clearCookie('access_token');
           res.clearCookie('refresh_token');
 
-          res.cookie('access_token', access_token, { maxAge: 2 * 60 * 1000, httpOnly: true, secure: false }); // 2 minutes
-          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false }); // 7 days
+          res.cookie('access_token', access_token, { 
+            maxAge: 2 * 60 * 1000,
+            httpOnly: true, 
+            secure: isProduction, // Use secure cookies in production
+            sameSite: 'Lax' }); // 2 minutes
+          res.cookie('refresh_token', refresh_token, {
+             maxAge: 7 * 24 * 60 * 60 * 1000, 
+             httpOnly: true, 
+             secure: isProduction, // Use secure cookies in production
+             sameSite: 'Lax'}); // 7 days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();

@@ -8,6 +8,7 @@ require('dotenv').config();
 
 exports.register = async (req, res) => {
     try {
+        const isProduction = process.env.NODE_ENV === 'production';
         let { username, email, password, contact, college, course, department, semester} = req.body;
       
         // Check if user already exists
@@ -47,8 +48,16 @@ exports.register = async (req, res) => {
         res.clearCookie('access_token');
         res.clearCookie('refresh_token');
     
-        res.cookie('access_token', access_token, { maxAge: 1 * 60 * 1000, httpOnly: true,secure: false }); //2min
-        res.cookie('refresh_token', refresh_token, { maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false }); //7days
+        res.cookie('access_token', access_token, {
+           maxAge: 1 * 60 * 1000, 
+           httpOnly: true, 
+           secure: isProduction, // Use secure cookies in production
+           sameSite: 'Lax' }); //2min
+        res.cookie('refresh_token', refresh_token, { 
+          maxAge: 6 * 24 * 60 * 60 * 1000,
+          httpOnly: true, 
+          secure: isProduction, // Use secure cookies in production
+          sameSite: 'Lax'  }); //7days
 
         const userDataToSend = {
             _id: savedUser._id,
@@ -67,6 +76,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
+        const isProduction = process.env.NODE_ENV === 'production';
         const {userType, email, password } = req.body;
         // console.log(req.body);
         
@@ -86,8 +96,8 @@ exports.login = async (req, res) => {
           res.clearCookie('access_token');
           res.clearCookie('refresh_token');
     
-          res.cookie('access_token', access_token, { maxAge: 2 * 60 * 1000, httpOnly: true,secure: false}); //2min
-          res.cookie('refresh_token', refresh_token, { maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false }); //7days
+          res.cookie('access_token', access_token, { maxAge: 2 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax'}); //2min
+          res.cookie('refresh_token', refresh_token, { maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax' }); //7days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();

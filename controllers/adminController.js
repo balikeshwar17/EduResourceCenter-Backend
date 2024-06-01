@@ -53,6 +53,7 @@ exports.register = async (req, res) => {
 // Admin login function
 exports.login = async (req, res) => {
     try {
+       const isProduction = process.env.NODE_ENV === 'production';
         const {userType, email, password } = req.body;
     
         const existUser = await Admin.findOne({ email: email });
@@ -74,8 +75,16 @@ exports.login = async (req, res) => {
           res.clearCookie('access_token');
           res.clearCookie('refresh_token');
     
-          res.cookie('access_token', access_token, { maxAge: 2 * 60 * 1000, httpOnly: true,secure: false }); //2min
-          res.cookie('refresh_token', refresh_token, { maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false }); //7days
+          res.cookie('access_token', access_token, { 
+            maxAge: 2 * 60 * 1000,
+            httpOnly: true, 
+            secure: isProduction, // Use secure cookies in production
+            sameSite: 'Lax'}); //2min
+          res.cookie('refresh_token', refresh_token, { 
+            maxAge: 6 * 24 * 60 * 60 * 1000,
+            httpOnly: true, 
+            secure: isProduction, // Use secure cookies in production
+            sameSite: 'Lax'}); //7days
           
           existUser.refresh_token = refresh_token;
           await existUser.save();
