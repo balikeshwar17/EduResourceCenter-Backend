@@ -75,6 +75,7 @@ exports.login = async (req, res) => {
           res.clearCookie('access_token');
           res.clearCookie('refresh_token');
     
+          console.log(isProduction);
           res.cookie('access_token', access_token, { 
             maxAge: 2 * 60 * 1000,
             httpOnly: true, 
@@ -107,6 +108,7 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
+    console.log('hi');
     res.clearCookie('access_token');
     res.clearCookie('refresh_token');
     return sendResponse(res, 200, "Success", "Logout successful", null);

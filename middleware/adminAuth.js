@@ -19,8 +19,11 @@ const adminAuthenticate = async (req, res, next) => {
     const incomingAccessToken = req.cookies.access_token;
     const incomingRefreshToken = req.cookies.refresh_token;
 
-    // console.log(incomingAccessToken);
-    // console.log(incomingRefreshToken);
+    console.log('hi');
+    console.log(incomingAccessToken);
+    console.log(incomingRefreshToken);
+    console.log('hi');
+    
 
     if (!incomingAccessToken && !incomingRefreshToken) {
       return sendResponse(res, 401, 'Unsuccessful', 'Access token and refresh token are missing.', null);

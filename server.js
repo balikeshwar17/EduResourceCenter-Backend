@@ -11,18 +11,18 @@ const cors = require('cors');
 // database 
 require('./config/config');
 
-// Initialize Express app
+// Initialize Express apps
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://magnificent-crisp-66bc77.netlify.app",
     credentials: true, 
   })
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "https://magnificent-crisp-66bc77.netlify.app");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
