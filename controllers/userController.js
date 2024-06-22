@@ -45,19 +45,8 @@ exports.register = async (req, res) => {
     
         const savedUser = await newUser.save();
     
-        res.clearCookie('access_token');
-        res.clearCookie('refresh_token');
-    
-        res.cookie('access_token', access_token, {
-           maxAge: 30 * 60 * 1000, 
-           httpOnly: true, 
-           secure: isProduction, // Use secure cookies in production
-           sameSite: 'Lax' }); //30min
-        res.cookie('refresh_token', refresh_token, { 
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          httpOnly: true, 
-          secure: isProduction, // Use secure cookies in production
-          sameSite: 'Lax'  }); //7days
+        res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None'}); //30min
+        res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None' }); //7days
 
         const userDataToSend = {
             _id: savedUser._id,
@@ -92,8 +81,8 @@ exports.login = async (req, res) => {
         const { access_token, refresh_token } = generateTokens(existUser,userType);
           
 
-          res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax'}); //30min
-          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax' }); //7days
+          res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None'}); //30min
+          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None' }); //7days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();

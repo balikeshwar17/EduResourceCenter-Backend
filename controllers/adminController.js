@@ -72,20 +72,8 @@ exports.login = async (req, res) => {
         if (isPasswordValid) {
           const { access_token, refresh_token } = generateTokens(existUser,userType);
           
-          res.clearCookie('access_token');
-          res.clearCookie('refresh_token');
-    
-          console.log(isProduction);
-          res.cookie('access_token', access_token, { 
-            maxAge: 30 * 60 * 1000,
-            httpOnly: true, 
-            secure: false // Use secure cookies in production
-           }); //30min
-          res.cookie('refresh_token', refresh_token, { 
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            httpOnly: true, 
-            secure: false // Use secure cookies in production
-           }); //7days
+          res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None'}); //30min
+          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None' }); //7days
           
           existUser.refresh_token = refresh_token;
           await existUser.save();

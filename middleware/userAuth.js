@@ -48,18 +48,8 @@ const userAuthenticate = async (req, res, next) => {
 
           const { access_token, refresh_token } = generateTokens(existUser, decoded.userType);
 
-          res.clearCookie('access_token');
-          res.clearCookie('refresh_token');
-
-          res.cookie('access_token', access_token, { 
-            maxAge: 2 * 60 * 1000,
-            httpOnly: true, 
-            secure: false}); // 2 minutes
-          res.cookie('refresh_token', refresh_token, {
-             maxAge: 7 * 24 * 60 * 60 * 1000, 
-             httpOnly: true, 
-             secure: false // Use secure cookies in production
-             }); // 7 days
+          res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None'}); //30min
+          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'None' }); //7days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();
