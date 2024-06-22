@@ -9,7 +9,7 @@ const generateTokens = (existUser,userType) => {
             throw new Error('Secret key not provided.');
         }
         
-        const access_token = jwt.sign({ userId: existUser._id,userType:userType }, ACCESS_TOKEN_SECRETKEY, { expiresIn: '3m' });
+        const access_token = jwt.sign({ userId: existUser._id,userType:userType }, ACCESS_TOKEN_SECRETKEY, { expiresIn: '40m' });
         const refresh_token = jwt.sign({ userId: existUser._id,userType:userType }, REFRESH_TOKEN_SECRETKEY, { expiresIn: '8d' });
        
         return { access_token, refresh_token };

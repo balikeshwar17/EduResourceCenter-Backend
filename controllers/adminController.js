@@ -77,15 +77,15 @@ exports.login = async (req, res) => {
     
           console.log(isProduction);
           res.cookie('access_token', access_token, { 
-            maxAge: 2 * 60 * 1000,
+            maxAge: 30 * 60 * 1000,
             httpOnly: true, 
-            secure: isProduction, // Use secure cookies in production
-            sameSite: 'Lax'}); //2min
+            secure: false // Use secure cookies in production
+           }); //30min
           res.cookie('refresh_token', refresh_token, { 
-            maxAge: 6 * 24 * 60 * 60 * 1000,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true, 
-            secure: isProduction, // Use secure cookies in production
-            sameSite: 'Lax'}); //7days
+            secure: false // Use secure cookies in production
+           }); //7days
           
           existUser.refresh_token = refresh_token;
           await existUser.save();

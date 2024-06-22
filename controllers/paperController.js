@@ -401,6 +401,7 @@ exports.getPendingPapers = async (req, res) => {
         .skip(skip)
         .limit(limit);
   
+
       // Get the total count of pending papers
       const totalCount = await Paper.countDocuments({ status_of_verification: 0 });
   
@@ -417,11 +418,14 @@ exports.getPendingPapers = async (req, res) => {
 
 exports.getMyPendingVerificationPapers = async (req, res) => {
     try {
+       
         const page = parseInt(req.query.page) || 1; // Current page number
         const limit = parseInt(req.query.limit) || 10; // Number of documents per page
         const skip = (page - 1) * limit;
 
         const adminId = req.user._id;
+        // console.log(adminId);
+
 
         // Find the admin by ID and populate the verification_pending_papers array
         let admin = await Admin.findById(adminId).populate({
@@ -434,6 +438,7 @@ exports.getMyPendingVerificationPapers = async (req, res) => {
 
         // Extract the papers from the admin
         let papers = admin.verification_pending_papers;
+        // console.log(papers);
 
         // Filter out any non-existent papers from verification_pending_papers array
         papers = await Promise.all(papers.map(async (paper) => {

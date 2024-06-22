@@ -38,7 +38,7 @@ exports.register = async (req, res) => {
         let ACCESS_TOKEN_SECRETKEY = process.env.ACCESS_TOKEN_SECRETKEY;
         let REFRESH_TOKEN_SECRETKEY = process.env.REFRESH_TOKEN_SECRETKEY;
 
-        const access_token = jwt.sign({ userId: newUser._id }, ACCESS_TOKEN_SECRETKEY, { expiresIn: '3m' });
+        const access_token = jwt.sign({ userId: newUser._id }, ACCESS_TOKEN_SECRETKEY, { expiresIn: '30m' });
         const refresh_token = jwt.sign({ userId: newUser._id }, REFRESH_TOKEN_SECRETKEY, { expiresIn: '8d' });
 
         newUser.refresh_token=refresh_token;   
@@ -49,12 +49,12 @@ exports.register = async (req, res) => {
         res.clearCookie('refresh_token');
     
         res.cookie('access_token', access_token, {
-           maxAge: 1 * 60 * 1000, 
+           maxAge: 30 * 60 * 1000, 
            httpOnly: true, 
            secure: isProduction, // Use secure cookies in production
-           sameSite: 'Lax' }); //2min
+           sameSite: 'Lax' }); //30min
         res.cookie('refresh_token', refresh_token, { 
-          maxAge: 6 * 24 * 60 * 60 * 1000,
+          maxAge: 7 * 24 * 60 * 60 * 1000,
           httpOnly: true, 
           secure: isProduction, // Use secure cookies in production
           sameSite: 'Lax'  }); //7days
@@ -78,7 +78,7 @@ exports.login = async (req, res) => {
     try {
         const isProduction = process.env.NODE_ENV === 'production';
         const {userType, email, password } = req.body;
-        // console.log(req.body);
+       
         
         const existUser = await User.findOne({ email: email });
     
@@ -90,17 +90,15 @@ exports.login = async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, storedHashedPassword);
         if (isPasswordValid) {
         const { access_token, refresh_token } = generateTokens(existUser,userType);
-          // console.log(access_token);
-          // console.log(refresh_token);
           
-          res.clearCookie('access_token');
-          res.clearCookie('refresh_token');
-    
-          res.cookie('access_token', access_token, { maxAge: 2 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax'}); //2min
-          res.cookie('refresh_token', refresh_token, { maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax' }); //7days
+
+          res.cookie('access_token', access_token, { maxAge: 30 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax'}); //30min
+          res.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true,secure: false,sameSite: 'Lax' }); //7days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();
+
+          // console.log('hi');
     
           const userDataToSend = {
             _id: existUser._id,
@@ -108,7 +106,8 @@ exports.login = async (req, res) => {
             contact:existUser.contact,
             address:existUser.address
           };
-          
+          // console.log(userDataToSend);
+
           return sendResponse(res, 200, "Success", "Login successful!", userDataToSend);
         } else {
           return sendResponse(res, 401, "Failed", "Invalid credentials", null);

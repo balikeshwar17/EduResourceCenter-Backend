@@ -19,10 +19,10 @@ const adminAuthenticate = async (req, res, next) => {
     const incomingAccessToken = req.cookies.access_token;
     const incomingRefreshToken = req.cookies.refresh_token;
 
-    console.log('hi');
-    console.log(incomingAccessToken);
-    console.log(incomingRefreshToken);
-    console.log('hi');
+    // console.log('hi');
+    // console.log(incomingAccessToken);
+    // console.log(incomingRefreshToken);
+    // console.log('hi');
     
 
     if (!incomingAccessToken && !incomingRefreshToken) {
@@ -59,13 +59,13 @@ const adminAuthenticate = async (req, res, next) => {
           res.cookie('access_token', access_token, { 
             maxAge: 2 * 60 * 1000,
              httpOnly: true, 
-            secure: isProduction, // Use secure cookies in production
-            sameSite: 'Lax' }); // 2 minutes
+            secure: false// Use secure cookies in production
+            }); // 2 minutes
           res.cookie('refresh_token', refresh_token, { 
             maxAge: 7 * 24 * 60 * 60 * 1000,
              httpOnly: true, 
-            secure: isProduction, // Use secure cookies in production
-            sameSite: 'Lax' }); // 7 days
+            secure: false// Use secure cookies in production
+            }); // 7 days
 
           existUser.refresh_token = refresh_token;
           await existUser.save();

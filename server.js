@@ -16,13 +16,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://eduresourcecenter.netlify.app",
+    // origin: "https://eduresourcecenter.netlify.app",
+    origin: "http://localhost:3000",
     credentials: true, 
   })
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://eduresourcecenter.netlify.app");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
@@ -36,7 +37,6 @@ app.use(cookieParser());
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 
