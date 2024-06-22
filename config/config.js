@@ -4,7 +4,7 @@ const mongoURI = 'mongodb+srv://balikeshwart:LnxtH16bo8kdJBqx@cluster0.3qiqqay.m
 
 const localDb='mongodb://127.0.0.1:27017/PapersDB';
 
-mongoose.connect(localDb, {
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
